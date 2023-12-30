@@ -6,6 +6,7 @@ const newTodoInput = document.querySelector('.new-todo');
 const clearCompleted = document.querySelector('.clear-completed');
 const filters = document.querySelector('.filters');
 const anchorFilters = document.querySelectorAll('.filter');
+const pendingCount = document.querySelector('.todo-count');
 
 export const createTodoHTML = (todo) => {
     const isCompleted = todo.completed;
@@ -20,6 +21,11 @@ export const createTodoHTML = (todo) => {
     </li>
     `;
     todoListUL.innerHTML += todoHtml;
+    updatePendingCount();
+}
+
+const updatePendingCount = () => {
+    pendingCount.innerText = `${todoList.getTodoPending()} pendiente(s)`;
 }
 
 newTodoInput.addEventListener('keyup', (event) => {
@@ -28,6 +34,7 @@ newTodoInput.addEventListener('keyup', (event) => {
         const newTodo = new Todo(value);
         todoList.addNewTodo(newTodo);
         createTodoHTML(newTodo);
+        updatePendingCount();
         event.target.value = '';
     }
 });
@@ -44,6 +51,7 @@ todoListUL.addEventListener('click', (event) => {
         todoList.deleteTodo(todoID);
         todoListUL.removeChild(liElement);
     }
+    updatePendingCount();
 });
 
 clearCompleted.addEventListener('click', () =>{
@@ -56,6 +64,7 @@ clearCompleted.addEventListener('click', () =>{
             todoListUL.removeChild(element);
         }
     }
+    updatePendingCount();
 });
 
 filters.addEventListener('click', (event) => {
@@ -81,5 +90,5 @@ filters.addEventListener('click', (event) => {
             }
         }
     }
-    
+    updatePendingCount();
 });

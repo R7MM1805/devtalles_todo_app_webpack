@@ -39,4 +39,8 @@ export class TodoList{
         this.todos = data ? JSON.parse(data) : [];
         this.todos = this.todos.map(Todo.fromJson);
     }
+
+    getTodoPending(){
+        return this.todos.filter(todo => !todo.completed).length;
+    }
 }
